@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import Joi from "joi";
+import User from "../models/User.model";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
@@ -122,19 +123,19 @@ const _handle_otp = async (user) => {
   });
 };
 
-const _handle_jwt = async (user) => {
-  return new Promise(async (resolve, reject) => {
-    let token = generateToken(user.email);
+// const _handle_jwt = async (user) => {
+//   return new Promise(async (resolve, reject) => {
+//     let token = generateToken(user.email);
 
-    let tokenObj = new AuthToken({
-      userId: user._id,
-      token: token,
-    });
+//     let tokenObj = new AuthToken({
+//       userId: user._id,
+//       token: token,
+//     });
 
-    await tokenObj.save();
+//     await tokenObj.save();
 
-    resolve(token);
-  });
-};
+//     resolve(token);
+//   });
+// };
 
 module.exports = router;
