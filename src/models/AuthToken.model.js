@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const AuthTokenSchema = new Schema(
@@ -34,4 +34,4 @@ const AuthTokenSchema = new Schema(
 );
 
 const AuthToken = mongoose.model("AuthToken", AuthTokenSchema);
-module.exports = AuthToken;
+export default AuthToken;

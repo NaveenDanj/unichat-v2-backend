@@ -10,16 +10,16 @@ dotenv.config();
 
 import api from "./src/routes/api.js";
 
-// mongoose
-//   .connect(process.env.MONGODB_CONNECTION_URL, {
-//     useNewUrlParser: true,
-//   })
-//   .then(() => {
-//     console.log("connected to mongodb");
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
+mongoose
+  .connect(process.env.MONGODB_CONNECTION_URL, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("connected to mongodb");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

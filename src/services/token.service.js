@@ -1,8 +1,6 @@
-const { v4 } = require("uuid");
+import { v4 } from "uuid";
 
-module.exports = {
-  // generate random token for reset password link
-  generateUUIDToken() {
-    return v4();
-  },
+// generate random token for reset password link
+export const generateUUIDToken = function () {
+  return v4();
 };

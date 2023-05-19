@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
 import Joi from "joi";
-import User from "../models/User.model";
-import AuthToken from "../models/AuthToken.model";
+import User from "../models/User.model.js";
+import AuthToken from "../models/AuthToken.model.js";
+import { hashPasswod } from "../services/hash.service.js";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
@@ -105,7 +106,7 @@ router.post("/register-with-social-account", async (req, res) => {
   }
 });
 
-router.get("/me", AuthRequired(), async (req, res) => {
+router.get("/me", async (req, res) => {
   return res.status(200).json({
     user: req.user,
   });
@@ -139,4 +140,4 @@ const _handle_otp = async (user) => {
 //   });
 // };
 
-module.exports = router;
+export default router;
