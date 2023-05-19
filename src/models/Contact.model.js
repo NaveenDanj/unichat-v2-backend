@@ -31,7 +31,19 @@ const ContactSchema = new Schema(
       default: false,
     },
 
+    archived: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+
     starred: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+
+    deleted: {
       type: Boolean,
       required: false,
       default: false,

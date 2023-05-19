@@ -3,8 +3,10 @@ const router = express.Router();
 import Joi from "joi";
 import User from "../models/User.model.js";
 import AuthToken from "../models/AuthToken.model.js";
-import { hashPasswod } from "../services/hash.service.js";
+import { comparePassword, hashPasswod } from "../services/hash.service.js";
 import { generateUUIDToken } from "../services/token.service.js";
+import { generateToken } from "../services/jwt.service.js";
+import UserAuthRequired from "../middlewares/UserAuthRequired.middleware.js";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
@@ -107,7 +109,7 @@ router.post("/register-with-social-account", async (req, res) => {
   }
 });
 
-router.get("/me", async (req, res) => {
+router.get("/me", UserAuthRequired(), async (req, res) => {
   return res.status(200).json({
     user: req.user,
   });
