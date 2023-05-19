@@ -1,7 +1,6 @@
 import express from "express";
 const router = express.Router();
-import Joi  from "joi";
-
+import Joi from "joi";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
@@ -48,7 +47,6 @@ router.post("/login", async (req, res) => {
     });
   }
 });
-
 
 router.post("/register-with-social-account", async (req, res) => {
   let validator = Joi.object({
@@ -97,17 +95,13 @@ router.post("/register-with-social-account", async (req, res) => {
       message: "New user created",
       user: userObject,
     });
-
   } catch (err) {
-
     return res.status(400).json({
       message: "Error creating user",
       error: err,
     });
-
   }
 });
-
 
 router.get("/me", AuthRequired(), async (req, res) => {
   return res.status(200).json({
