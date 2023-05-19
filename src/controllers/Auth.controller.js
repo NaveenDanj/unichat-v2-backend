@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import Joi from "joi";
 import User from "../models/User.model";
+import AuthToken from "../models/AuthToken.model";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
