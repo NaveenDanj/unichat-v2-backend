@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema(
+const ContactSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -40,5 +40,5 @@ const UserSchema = new Schema(
   { timestamps: true, strict: false }
 );
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const Contact = mongoose.model("Contact", ContactSchema);
+export default Contact;

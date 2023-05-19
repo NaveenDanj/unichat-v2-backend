@@ -4,6 +4,7 @@ import Joi from "joi";
 import User from "../models/User.model.js";
 import AuthToken from "../models/AuthToken.model.js";
 import { hashPasswod } from "../services/hash.service.js";
+import { generateUUIDToken } from "../services/token.service.js";
 
 router.post("/login", async (req, res) => {
   let validator = Joi.object({
@@ -77,7 +78,7 @@ router.post("/register-with-social-account", async (req, res) => {
     let email_check = await User.findOne({ email: req.body.email });
     if (email_check) {
       return res.status(400).json({
-        message: "Email already user in another account!",
+        message: "Email already used in another account!",
       });
     }
 
@@ -85,14 +86,14 @@ router.post("/register-with-social-account", async (req, res) => {
     let phone_check = await User.findOne({ phone: req.body.phone });
     if (phone_check) {
       return res.status(400).json({
-        message: "Phone number already user in another account!",
+        message: "Phone number already used in another account!",
       });
     }
 
     let userObject = await user.save();
 
     // send otp to the phone number later
-    _handle_otp(user);
+    // _handle_otp(user);
 
     return res.status(201).json({
       message: "New user created",
