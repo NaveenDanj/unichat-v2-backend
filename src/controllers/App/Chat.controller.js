@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
 import Joi from "joi";
-import Room from "../../models/Room.model";
-import Chat from "../../models/Chat.model";
+import Room from "../../models/Room.model.js";
+import Chat from "../../models/Chat.model.js";
 
 router.post("/create-chat", async (req, res) => {
   let validator = Joi.object({
@@ -87,7 +87,7 @@ router.delete("/delete-chat", async (req, res) => {
 
     if (!chat) {
       return res.status(404).json({
-        message: "Request validation error",
+        message: "chat not found",
         error: err,
       });
     }
@@ -112,6 +112,48 @@ router.delete("/delete-chat", async (req, res) => {
   }
 });
 
+router.post("/star-chat", async (req, res) => {
+  let validator = Joi.object({
+    chatId: Joi.string().required(),
+  });
 
+  try {
+    let data;
+
+    try {
+      data = await validator.validateAsync(req.body, { abortEarly: false });
+    } catch (err) {
+      return res.status(400).json({
+        message: "Request validation error",
+        error: err,
+      });
+    }
+
+    let chat = await Chat.findOne({ _id: data.chatId });
+
+    if (!chat) {
+      return res.status(404).json({
+        message: "Chat not found",
+        error: err,
+      });
+    }
+
+    if (chat.fromUser != req.user._id || chat.toUser != req.user._id) {
+      return res.status(404).json({
+        message: "User not authorized to star this chat",
+        error: err,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Chat deleted successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error in deleting chat",
+      error: err,
+    });
+  }
+});
 
 export default router;
