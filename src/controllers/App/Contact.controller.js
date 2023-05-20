@@ -3,6 +3,7 @@ const router = express.Router();
 import Joi from "joi";
 import User from "../../models/User.model.js";
 import Contact from "../../models/Contact.model.js";
+import Room from "../../models/Room.model.js";
 
 router.post("/create-contact", async (req, res) => {
   let validator = Joi.object({
@@ -47,13 +48,19 @@ router.post("/create-contact", async (req, res) => {
       });
     }
 
-    let roomId = generateUUIDToken();
+    let roomObj = new Room({
+      createdUser: req.user._id,
+      contactUser: data.contactUserId,
+      type: "Private",
+    });
+
+    let room = await roomObj.save();
 
     let contactObj = new Contact({
       userId: req.user._id,
       contactUser: data.contactUserId,
       contactName: data.contactName,
-      roomId,
+      roomId: room._id,
     });
 
     await contactObj.save();
@@ -61,6 +68,7 @@ router.post("/create-contact", async (req, res) => {
     return res.status(200).json({
       message: "New contact created!",
       ContactObject: contactObj,
+      roomObject: room,
     });
   } catch (err) {
     return res.status(500).json({
